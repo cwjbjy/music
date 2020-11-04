@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 主题色 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.header {
+  position: relative;
+  padding: 60rpx 20rpx 60rpx 30rpx;
+  overflow: hidden;
+}
+.header .header_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  -webkit-filter: blur(40rpx);
+          filter: blur(40rpx);
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+.header .mask {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: .25;
+  background: #000;
+}
+.header .header_wrap {
+  position: relative;
+  z-index: 100;
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.header .header_wrap .wrap_fl {
+  width: 252rpx;
+  height: 252rpx;
+  position: relative;
+}
+.header .header_wrap .wrap_fl image {
+  width: 100%;
+  height: 100%;
+}
+.header .header_wrap .wrap_fl .icon {
+  position: absolute;
+  z-index: 101;
+  top: 10px;
+  left: 0;
+  padding: 0 8px;
+  height: 17px;
+  color: #fff;
+  font-size: 18rpx;
+  text-align: center;
+  line-height: 34rpx;
+  background-color: rgba(217, 48, 48, 0.8);
+  border-top-right-radius: 34rpx;
+  border-bottom-right-radius: 34rpx;
+}
+.header .header_wrap .wrap_fr {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  margin-left: 32rpx;
+}
+.header .header_wrap .wrap_fr .header_name text {
+  font-size: 34rpx;
+}
+.header .header_wrap .wrap_fr .auth {
+  margin-top: 40rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.header .header_wrap .wrap_fr .auth .auth_image {
+  display: inline-block;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}
+.header .header_wrap .wrap_fr .auth text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 28rpx;
+}
+

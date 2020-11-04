@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "list": "/components/list/list",
+    "image-header": "/components/imageHeader/imageHeader"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "wj-banner": "/components/banner/banner",
+    "wj-grid": "/components/grid/grid"
+  }
+}
