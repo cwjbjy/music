@@ -25,6 +25,11 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.container.data-v-a81d220c {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
 .bg.data-v-a81d220c {
   position: absolute;
   left: 0;
@@ -36,8 +41,6 @@
   -webkit-filter: blur(60rpx);
           filter: blur(60rpx);
   z-index: 1;
-  -webkit-transform: scale(1.5);
-          transform: scale(1.5);
 }
 .mask.data-v-a81d220c {
   position: absolute;
@@ -74,21 +77,24 @@
 .titleBar .bar_center.data-v-a81d220c {
   margin-left: 20rpx;
   margin-top: 10rpx;
+  color: #fff;
 }
 .titleBar .bar_center .title.data-v-a81d220c {
   font-size: 34rpx;
-  color: #fff;
 }
 .titleBar .bar_center .author.data-v-a81d220c {
   margin: 4rpx 0;
   font-size: 24rpx;
-  color: #c3aeae;
 }
 .wrap.data-v-a81d220c {
   position: absolute;
   top: 70px;
   z-index: 100;
   width: 100%;
+  bottom: 200rpx;
+}
+.wrap .swiper.data-v-a81d220c {
+  height: 100%;
 }
 .wrap .song.data-v-a81d220c {
   width: 600rpx;
@@ -167,10 +173,6 @@ to {
           align-items: center;
   padding: 0 80rpx;
 }
-.bottom .iconfont.data-v-a81d220c {
-  font-size: 34rpx;
-  color: #fff;
-}
 .bottom .barIcon.data-v-a81d220c {
   font-size: 60rpx;
 }
@@ -205,5 +207,25 @@ to {
   text-align: right;
   color: #ccc;
   width: 80rpx;
+}
+.scroll-Y.data-v-a81d220c {
+  height: 100%;
+  text-align: center;
+  display: block;
+  font-size: 32rpx;
+  line-height: 1.5;
+  position: relative;
+}
+.active.data-v-a81d220c {
+  color: #fff;
+}
+.normal.data-v-a81d220c {
+  color: #666;
+}
+.scroll-item.data-v-a81d220c {
+  margin-bottom: 20rpx;
+}
+.lineHigh.data-v-a81d220c {
+  color: #fff;
 }
 

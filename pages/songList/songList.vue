@@ -1,10 +1,10 @@
 <template>
-	<view class="container">
-		<image-header :source="playlist" v-if="lock"></image-header>
+	<view class="container" v-if="lock">
+		<image-header :source="playlist"></image-header>
 		<view class="bar">
 			<text>歌曲列表</text>
 		</view>
-		<list :source="playlist.tracks" v-if="lock"></list>
+		<list :source="tracks" :listId="listId"></list>
 	</view>
 </template>
 
@@ -19,17 +19,21 @@
 		data() {
 			return {
 				url: '/playlist/detail',
-				playlist: {},
-				lock: false
+				playlist: {}, //歌单信息
+				lock: false,
+				tracks:[],//歌曲详情
+				listId:'', //歌单ID
 			};
 		},
 		async onLoad(options) {
+			this.listId = options.id;
 			let {
 				data
 			} = await this.$API({
-				url: `${this.url}?id=${options.id}`
+				url: `${this.url}?id=${this.listId}`
 			})
 			this.playlist = data.playlist;
+			this.tracks = this.playlist.tracks;
 			this.lock = true;
 		}
 	}

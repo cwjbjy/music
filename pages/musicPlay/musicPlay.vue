@@ -1,5 +1,6 @@
 <template>
-	<view class="container" v-if="songs.length > 0">
+	<!-- 获取到歌曲信息并且获取到时长再渲染 -->
+	<view class="container" v-if="songs.length > 0 && duration !== 0">
 		<view class="bg" :style="{'background-image':`url(${song.al.picUrl})`}"></view>
 		<view class="mask"></view>
 		<!-- 顶部 -->
@@ -14,13 +15,28 @@
 		</view>
 		<!-- 中间 -->
 		<view class="wrap">
-			<view class="song">
-				<view :class="['song_turn',palyStatus === true ? 'active':'']">
-					<view class="song_pic">
-						<image :src="song.al.picUrl"></image>
+			<swiper class="swiper" @change="swiperChange" current="1">
+				<swiper-item>
+					<view class="song">
+						<view :class="['song_turn',paused !== true ? 'active':'']">
+							<view class="song_pic">
+								<image :src="song.al.picUrl"></image>
+							</view>
+						</view>
 					</view>
-				</view>
-			</view>
+				</swiper-item>
+				<swiper-item>
+					<scroll-view :scroll-top="scrollTop" class="scroll-Y" scroll-y="true" ref="scrollY" id="scrollY" v-if="!nolyric">
+						<view v-for="(value,index) in lyricObj" :key="index" :id="index" :ref="index">
+							{{value.text}}
+						</view>
+					</scroll-view>
+					<scroll-view v-if="nolyric" style="color:#FFFFFF;text-align: center;">
+						无歌词，请欣赏音乐
+					</scroll-view>
+				</swiper-item>
+			</swiper>
+
 		</view>
 		<!-- 底部 -->
 		<view class="bottom">
@@ -38,19 +54,19 @@
 			<!-- 播放控制 -->
 			<view class="control">
 				<view class="select">
-					<view class="iconfont icon-xunhuan barIcon"></view>
+					<view class="iconfont icon-xunhuan barIcon" v-if="!playOrder" @click="continuePlay"></view>
+					<view class="iconfont icon-danquxunhuan barIcon" v-if="playOrder" @click="continuePlay"></view>
 				</view>
-				<view class="iconfont icon-48shangyishou barIcon"></view>
-				<view class="play" @click="paly">
-					<!-- <u-icon name="photo"></u-icon> -->
-					<!-- <view class="playIcon" v-if="!palyStatus">
+				<view class="iconfont icon-48shangyishou barIcon" @click="next(-1)"></view>
+				<view class="play" @click="audio.paused?audio.play():audio.pause()">
+					<view class="playIcon" v-if="paused">
 						<image src="../../static/images/player-it666-play.png"></image>
 					</view>
-					<view class="playIcon" v-if="palyStatus">
+					<view class="playIcon" v-if="!paused">
 						<image src="../../static/images/player-it666-pause.png"></image>
-					</view> -->
+					</view>
 				</view>
-				<view class="iconfont icon-048caozuo_xiayishou barIcon"></view>
+				<view class="iconfont icon-048caozuo_xiayishou barIcon" @click="next(1)"></view>
 				<view class="iconfont icon-shoucang barIcon"></view>
 			</view>
 		</view>
@@ -58,17 +74,26 @@
 </template>
 
 <script>
+	import func from "../../utils/func.js"
 	export default {
 		data() {
 			return {
-				id: null,
+				id: null, //歌曲ID
+				listId: null, //歌单ID
 				song: {},
 				songs: [],
-				palyStatus: false,
+				tracks: [], //歌单详情
+				playlist: [], //歌单下歌曲ID集
+				srcs: [], //过滤后的歌单详情
 				url: '',
-
+				line: 0,
+				scrollTop:0,
+				c_pos:4, //C位
+				lyricObj: [], //歌词 
+				nolyric: false, //无歌词
 				color: '#169af3',
-				audio: uni.createInnerAudioContext(), //音频实例
+				audio: null, //音频实例
+				playOrder: false, //是否顺序播放
 				duration: 0, //总时长
 				current: 0, //当前时长
 				paused: true, //是否处于暂停状态
@@ -94,68 +119,252 @@
 		},
 		async onLoad(options) {
 			this.id = options.id;
-			/* 获取歌曲详情 */
-			this.$API({
-				url: `/song/detail?ids=${this.id}`
-			}).then(res => {
-				this.songs = res.data.songs;
-				this.song = this.songs[0]
-			})
-			/* 判断是否有播放该歌曲权限 */
-			let {
-				data
-			} = await this.$API({
-				url: `/check/music?id=${this.id}`
-			})
-			if (data.success) {
-				this.$API({
-					url: `/song/url?id=${this.id}`
-				}).then(res => {
-					this.url = res.data.data[0].url;
-					this.audio.src = this.url;
-					/* 音频进入可播放状态 */
-					this.audio.onCanplay(() => {
-						this.duration = this.audio.duration
-					})
-				})
-			} else {
-				uni.showToast({
-					icon: 'none',
-					title: data.message
-				})
-			}
+			this.listId = options.listId;
+			this.getSongDetail();
+			this.initData();
 		},
 		methods: {
-			handlerClick() {
-				uni.navigateBack()
+			async initData() {
+				await this.getPlayList();
+				await this.getSongsUrl();
+				await this.getLyric();
+				this.playSong()
 			},
-			async paly() {
-				this.palyStatus = !this.palyStatus;
-				if (this.palyStatus) {
-					this.audio.play()
-				} else {
-					this.audio.pause()
-				}
+			/* 切换区域 */
+			swiperChange(e) {
+
+			},
+			/* 获取歌单详情，用于切换歌 */
+			getPlayList() {
+				return new Promise((resolve, reject) => {
+					this.$API({
+						url: `/playlist/detail?id=${this.listId}`
+					}).then(res => {
+						this.tracks = res.data.playlist.tracks
+						this.tracks.map(item => {
+							this.playlist.push(item.id)
+						})
+						resolve()
+					})
+				})
+			},
+			/* 获取歌曲列表url */
+			getSongsUrl() {
+				return new Promise((resolve, reject) => {
+					this.$API({
+						url: `/song/url?id=${this.playlist.toString()}`
+					}).then(res => {
+						let data = res.data.data;
+						/* 过滤无权限歌曲,并排序 */
+						this.tracks.map((track, index) => {
+							data.map(item => {
+								if (track.id == item.id && item.url) {
+									this.srcs.push({
+										id: item.id,
+										url: item.url,
+										index: index
+									})
+								}
+							})
+						})
+						resolve()
+					})
+				})
+			},
+			/* 获取歌曲详情 */
+			getSongDetail() {
+				this.$API({
+					url: `/song/detail?ids=${this.id}`
+				}).then(res => {
+					this.songs = res.data.songs;
+					this.song = this.songs[0]
+				});
+			},
+			/* 获取歌词 */
+			getLyric() {
+				return new Promise((resolve, reject) => {
+					this.$API({
+						url: `/lyric?id=${this.id}`
+					}).then(res => {
+						if (res.data.lrc) {
+							this.nolyric = false;
+							let lyrics = res.data.lrc.lyric.split("\n");
+							// [00:00.000] 作曲 : 林俊杰
+							// 1.定义正则表达式提取[00:00.000]
+							let reg1 = /\[\d*:\d*\.\d*\]/g;
+							// 2.定义正则表达式提取 [00
+							let reg2 = /\[\d*/i;
+							// 3.定义正则表达式提取 :00
+							let reg3 = /\:\d*/i;
+							// 定义正则表达式提取 .000
+							let reg4 = /\.\d*/i;
+							// 4.定义对象保存处理好的歌词
+							let lyricObj = [];
+							lyrics.forEach(function(lyric) {
+								// 1.提取时间
+								let timeStr = lyric.match(reg1);
+								if (!timeStr) {
+									return
+								}
+								timeStr = timeStr[0];
+								// 2.提取分钟
+								let minStr = timeStr.match(reg2)[0].substr(1);
+								// 3.提取秒钟
+								let secondStr = timeStr.match(reg3)[0].substr(1);
+								// 提取毫秒
+								let millisecond = timeStr.match(reg4)[0].substr(1);
+								// 4.合并时间, 将分钟和秒钟都合并为秒钟
+								let time = parseInt(minStr) * 60 + parseInt(secondStr) + '.' + millisecond;
+								// 5.处理歌词
+								let text = lyric.replace(reg1, "").trim();
+								// 6.保存数据
+								lyricObj.push({
+									time,
+									text
+								});
+							});
+							this.lyricObj = lyricObj;
+							/*  */
+						} else {
+							this.nolyric = true
+						}
+						// console.log('this.lyricObj',this.lyricObj)
+						resolve()
+					})
+				})
+			},
+			/* 播放 */
+			playSong() {
+				/* 根据id查找对应音乐url */
+				this.srcs.map(item => {
+					if (item.id == this.id) {
+						this.url = item.url
+					}
+				});
+				this.audio = uni.createInnerAudioContext();
+				this.audio.src = this.url;
+				this.audio.autoplay = true;
+				/* 每次构建实例时，将行数初始化 */
+				this.line = 0;
+				this.scrollTop = 0;
+				/* 音频进入可播放状态 */
+				this.audio.onCanplay(() => {
+					this.duration = this.audio.duration
+				})
+				//音频播放事件
 				this.audio.onPlay(() => {
-					console.log('开始播放');
-					console.log('长度', this.audio.duration)
-					console.log('位置', this.audio.currentTime)
-					console.log('播放状态', this.audio.paused)
-				});
-				this.audio.onError((res) => {
-					console.log(res.errMsg);
-					console.log(res.errCode);
-				});
+					this.paused = false
+					// this.loading = false
+				})
+				//音频暂停事件
+				this.audio.onPause(() => {
+					this.paused = true
+				})
+				//音频进度更新事件
+				this.audio.onTimeUpdate(() => {
+					if (!this.seek) {
+						this.current = this.audio.currentTime;
+					}
+					if (!this.duration) {
+						this.duration = this.audio.duration
+					}
+					if (!this.nolyric) {
+						if (this.lyricObj[this.line].time < +this.audio.currentTime.toFixed(3)) {
+							this.$refs[this.line][0].$el.style.color = 'rgb(166 226 45)';
+							// /* 区域滚动 */
+							if(this.line > this.c_pos){
+								this.scrollTop = this.$refs[this.line - this.c_pos][0].$el.offsetTop;
+							}
+							// /* 高亮当前行 */
+							if (this.line > 0) {
+								/* 去掉上一行的样式 */
+								this.$refs[this.line - 1][0].$el.style.color = '#fff';
+							}
+							this.line++;
+						}
+					}
+					// this.$refs.scroll.scrollTop = 10;
+				})
+				//音频结束事件
+				this.audio.onEnded(() => {
+					if (!this.playOrder) {
+						this.next(1);
+					} else {
+						this.paused = true
+						this.current = 0
+					}
+				})
+				//音频完成更改进度事件
+				this.audio.onSeeked(() => {
+					this.seek = false
+				})
 			},
-			progressClick(e) {
-				console.log(e)
-			}
+			next(val) {
+				let nex = val;
+				for (let i = 0, len = this.srcs.length; i < len; i++) {
+					/* 匹配当前播放列表Id */
+					if (this.srcs[i].id == this.id) {
+						if (nex == 1) {
+							/* 下一首 */
+							if (i == len - 1) {
+								/* 歌曲为最后一首，循环听第一首歌 */
+								this.id = this.srcs[0].id;
+							} else {
+								this.id = this.srcs[i + nex].id;
+							}
+						} else {
+							/* 上一首 */
+							if (i == 0) {
+								/* 歌曲为d第一首，循环听最后一首歌 */
+								this.id = this.srcs[len - 1].id;
+							} else {
+								this.id = this.srcs[i + nex].id;
+							}
+						}
+						break;
+					}
+				}
+				this.current = 0;
+				this.getSongDetail();
+				this.getLyric();
+				this.audio.destroy();
+				this.playSong();
+			},
+			handlerClick() {
+				uni.navigateBack();
+				this.audio.destroy()
+			},
+			continuePlay() {
+				this.playOrder = !this.playOrder;
+				if (this.playOrder) {
+					uni.showToast({
+						icon: 'none',
+						title: '单曲循环',
+						position: 'bottom'
+					})
+					/* 循环播放 */
+					this.audio.loop = true
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: '列表循环',
+						position: 'bottom'
+					})
+					this.audio.loop = false
+				}
+			},
 		}
 
 	}
 </script>
 
 <style lang="scss" scoped>
+	.container {
+		position: relative;
+		width: 100vw;
+		height: 100vh;
+	}
+
 	.bg {
 		position: absolute;
 		left: 0;
@@ -166,7 +375,6 @@
 		background-position: center;
 		filter: blur(60rpx);
 		z-index: 1;
-		transform: scale(1.5);
 	}
 
 	.mask {
@@ -218,6 +426,11 @@
 		top: 70px;
 		z-index: 100;
 		width: 100%;
+		bottom: 200rpx;
+
+		.swiper {
+			height: 100%;
+		}
 
 		.song {
 			width: 600rpx;
@@ -322,5 +535,15 @@
 			color: #ccc;
 			width: 80rpx;
 		}
+	}
+
+	.scroll-Y {
+		height: 100%;
+		text-align: center;
+		display: block;
+		font-size: 32rpx;
+		line-height: 4;
+		position: relative;
+		color: #fff;
 	}
 </style>

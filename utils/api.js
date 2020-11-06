@@ -10,9 +10,10 @@ const myRequest = (options) =>{
 			},
 			fail: (err) => {
 				uni.showToast({
+					icon:'none',
 					title:'网络出现异常'
 				})
-				console.log(err)
+				console.log('1',err)
 			}
 		})
 	})

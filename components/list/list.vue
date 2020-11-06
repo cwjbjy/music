@@ -21,17 +21,35 @@
 			source:{
 				type:Array,
 				default:[]
+			},
+			/* 歌单ID */
+			listId:{
+				type:String,
+				default:''
 			}
 		},
 		data() {
 			return {
-				
+				id:'' //歌曲Id
 			};
 		},
 		methods:{
 			handlerCilck(val){
-				uni.navigateTo({
-					url:`../../pages/musicPlay/musicPlay?id=${val}`
+				this.id = val
+				/* 判断是否有播放该歌曲权限 */
+				this.$API({
+					url: `/check/music?id=${this.id}`
+				}).then(res=>{
+					if(res.data.success){
+						uni.navigateTo({
+							url:`../../pages/musicPlay/musicPlay?id=${this.id}&listId=${this.listId}`
+						})
+					}else{
+						uni.showToast({
+							icon:'none',
+							title:res.data.message
+						})
+					}
 				})
 			}
 		}

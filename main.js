@@ -6,7 +6,8 @@ import {
 Vue.config.productionTip = false
 Vue.prototype.$API = myRequest
 App.mpType = 'app'
-
+import uView from "uview-ui";
+Vue.use(uView);
 
 /* 数字转为万，亿，万亿为单位 */
 Vue.filter('numberFormat', function(value) {

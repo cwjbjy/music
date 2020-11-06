@@ -29,7 +29,7 @@
 			}
 		},
 		created() {
-			console.log('source',this.source)
+			
 		},
 		data() {
 			return {
