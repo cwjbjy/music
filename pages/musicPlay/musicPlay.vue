@@ -49,12 +49,8 @@
 				</view>
 				<view class="iconfont icon-48shangyishou barIcon" @click="next(-1)"></view>
 				<view class="play" @click="audio.paused?audio.play():audio.pause()">
-					<view class="playIcon" v-if="paused">
-						<image src="../../static/images/player-it666-play.png"></image>
-					</view>
-					<view class="playIcon" v-if="!paused">
-						<image src="../../static/images/player-it666-pause.png"></image>
-					</view>
+					<view class="iconfont icon-plus-start playIcon" v-if="paused"></view>
+					<view class="iconfont icon-plus-pause playIcon" v-if="!paused"></view>
 				</view>
 				<view class="iconfont icon-048caozuo_xiayishou barIcon" @click="next(1)"></view>
 				<view class="iconfont icon-shoucang barIcon"></view>
@@ -470,13 +466,7 @@
 		}
 
 		.playIcon {
-			width: 90rpx;
-			height: 90rpx;
-
-			image {
-				width: 100%;
-				height: 100%;
-			}
+			font-size: 80rpx;
 		}
 	}
 

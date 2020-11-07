@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1336382",
+      "name": "暂停",
+      "font_class": "plus-pause",
+      "unicode": "e723",
+      "unicode_decimal": 59171
+    },
+    {
+      "icon_id": "1336405",
+      "name": "启动",
+      "font_class": "plus-start",
+      "unicode": "e72c",
+      "unicode_decimal": 59180
+    },
+    {
       "icon_id": "1488903",
       "name": "随机",
       "font_class": "suiji",
@@ -48,32 +62,11 @@
       "unicode_decimal": 58916
     },
     {
-      "icon_id": "4328008",
-      "name": "播放",
-      "font_class": "bofang",
-      "unicode": "e645",
-      "unicode_decimal": 58949
-    },
-    {
       "icon_id": "7843972",
       "name": "收藏",
       "font_class": "lujing",
       "unicode": "e621",
       "unicode_decimal": 58913
-    },
-    {
-      "icon_id": "9743050",
-      "name": "播放",
-      "font_class": "bofang1",
-      "unicode": "e681",
-      "unicode_decimal": 59009
-    },
-    {
-      "icon_id": "12683552",
-      "name": "播放",
-      "font_class": "icon_bofang",
-      "unicode": "e615",
-      "unicode_decimal": 58901
     },
     {
       "icon_id": "16648578",
