@@ -26,9 +26,10 @@
 /* 透明度 */
 /* 文章场景相关 */
 .container.data-v-a81d220c {
-  position: relative;
+  position: absolute;
   width: 100vw;
-  height: 100vh;
+  top: 0;
+  bottom: 0;
 }
 .bg.data-v-a81d220c {
   position: absolute;
@@ -38,8 +39,8 @@
   bottom: 0;
   background-repeat: no-repeat;
   background-position: center;
-  -webkit-filter: blur(60rpx);
-          filter: blur(60rpx);
+  -webkit-filter: blur(80rpx);
+          filter: blur(80rpx);
   z-index: 1;
 }
 .mask.data-v-a81d220c {
@@ -52,43 +53,9 @@
   opacity: .25;
   background: #000;
 }
-.titleBar.data-v-a81d220c {
-  height: 100rpx;
-  width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  z-index: 100;
-  position: absolute;
-}
-.titleBar .bar_left.data-v-a81d220c {
-  width: 64rpx;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.titleBar .bar_center.data-v-a81d220c {
-  margin-left: 20rpx;
-  margin-top: 10rpx;
-  color: #fff;
-}
-.titleBar .bar_center .title.data-v-a81d220c {
-  font-size: 34rpx;
-}
-.titleBar .bar_center .author.data-v-a81d220c {
-  margin: 4rpx 0;
-  font-size: 24rpx;
-}
 .wrap.data-v-a81d220c {
   position: absolute;
-  top: 70px;
+  top: 140rpx;
   z-index: 100;
   width: 100%;
   bottom: 200rpx;
@@ -213,19 +180,8 @@ to {
   text-align: center;
   display: block;
   font-size: 32rpx;
-  line-height: 1.5;
+  line-height: 4;
   position: relative;
-}
-.active.data-v-a81d220c {
-  color: #fff;
-}
-.normal.data-v-a81d220c {
-  color: #666;
-}
-.scroll-item.data-v-a81d220c {
-  margin-bottom: 20rpx;
-}
-.lineHigh.data-v-a81d220c {
   color: #fff;
 }
 

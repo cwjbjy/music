@@ -1,1 +1,1 @@
-<block wx:if="{{lock}}"><view class="container"><image-header vue-id="519749e0-1" source="{{playlist}}" bind:__l="__l"></image-header><view class="bar"><text>歌曲列表</text></view><list vue-id="519749e0-2" source="{{tracks}}" listId="{{listId}}" bind:__l="__l"></list></view></block>
+<block wx:if="{{lock}}"><view class="container"><image-header vue-id="519749e0-1" source="{{playlist}}" bind:__l="__l"></image-header><view class="bar"><text>歌曲列表</text></view><playlist vue-id="519749e0-2" source="{{tracks}}" listId="{{listId}}" bind:__l="__l"></playlist></view></block>

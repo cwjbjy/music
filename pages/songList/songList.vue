@@ -4,17 +4,17 @@
 		<view class="bar">
 			<text>歌曲列表</text>
 		</view>
-		<list :source="tracks" :listId="listId"></list>
+		<playlist :source="tracks" :listId="listId"></playlist>
 	</view>
 </template>
 
 <script>
 	import imageHeader from "../../components/imageHeader/imageHeader.vue"
-	import list from "../../components/list/list.vue"
+	import playlist from "../../components/playlist/playlist.vue"
 	export default {
 		components: {
 			imageHeader,
-			list
+			playlist
 		},
 		data() {
 			return {

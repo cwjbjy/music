@@ -17,6 +17,7 @@
 
 <script>
 	export default {
+		name:'playlist',
 		props:{
 			source:{
 				type:Array,

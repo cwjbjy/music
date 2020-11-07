@@ -105,11 +105,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/grid/grid":1,"components/imageHeader/imageHeader":1,"components/list/list":1};
+/******/ 		var cssChunks = {"components/grid/grid":1,"components/imageHeader/imageHeader":1,"components/playlist/playlist":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/grid/grid":"components/grid/grid","components/imageHeader/imageHeader":"components/imageHeader/imageHeader","components/list/list":"components/list/list"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"components/grid/grid":"components/grid/grid","components/imageHeader/imageHeader":"components/imageHeader/imageHeader","components/playlist/playlist":"components/playlist/playlist"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

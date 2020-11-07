@@ -3,19 +3,9 @@
 	<view class="container" v-if="songs.length > 0 && duration !== 0">
 		<view class="bg" :style="{'background-image':`url(${song.al.picUrl})`}"></view>
 		<view class="mask"></view>
-		<!-- 顶部 -->
-		<view class="titleBar">
-			<view class="bar_left" @click="handlerClick">
-				<view class="iconfont icon-xiangxiajiantou"></view>
-			</view>
-			<view class="bar_center">
-				<view class="title lin1">{{song.name}}</view>
-				<view class="author lin1">{{song.ar | author}}</view>
-			</view>
-		</view>
 		<!-- 中间 -->
 		<view class="wrap">
-			<swiper class="swiper" @change="swiperChange" current="1">
+			<swiper class="swiper">
 				<swiper-item>
 					<view class="song">
 						<view :class="['song_turn',paused !== true ? 'active':'']">
@@ -26,8 +16,8 @@
 					</view>
 				</swiper-item>
 				<swiper-item>
-					<scroll-view :scroll-top="scrollTop" class="scroll-Y" scroll-y="true" ref="scrollY" id="scrollY" v-if="!nolyric">
-						<view v-for="(value,index) in lyricObj" :key="index" :id="index" :ref="index">
+					<scroll-view :scroll-top="scrollTop" class="scroll-Y" scroll-y="true" v-if="!nolyric">
+						<view v-for="(value,index) in lyricObj" :key="index" :id="index" :ref="index" :style="{'color': index == line ? '#a6e22d' : '#fff'}">
 							{{value.text}}
 						</view>
 					</scroll-view>
@@ -87,8 +77,8 @@
 				srcs: [], //过滤后的歌单详情
 				url: '',
 				line: 0,
-				scrollTop:0,
-				c_pos:4, //C位
+				scrollTop: 0,
+				c_pos: 4, //C位
 				lyricObj: [], //歌词 
 				nolyric: false, //无歌词
 				color: '#169af3',
@@ -117,11 +107,34 @@
 				return minute + ':' + second
 			}
 		},
+		// #ifndef MP-WEIXIN
+		watch: {
+			'current'(val) {
+				/* 有歌词情况处理歌词 */
+				if (!this.nolyric) {
+					for (let i = 0, len = this.lyricObj.length; i < len; i++) {
+						if(this.lyricObj[i + 1]){
+							if (+this.lyricObj[i].time <= val && val < +this.lyricObj[i + 1].time) {
+								this.line = i;
+								if (this.line > this.c_pos) {
+									this.scrollTop = this.$refs[this.line - this.c_pos][0].$el.offsetTop;
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+		},
+		// #endif
 		async onLoad(options) {
 			this.id = options.id;
 			this.listId = options.listId;
 			this.getSongDetail();
 			this.initData();
+		},
+		onUnload() {
+			this.audio.destroy()
 		},
 		methods: {
 			async initData() {
@@ -129,10 +142,6 @@
 				await this.getSongsUrl();
 				await this.getLyric();
 				this.playSong()
-			},
-			/* 切换区域 */
-			swiperChange(e) {
-
 			},
 			/* 获取歌单详情，用于切换歌 */
 			getPlayList() {
@@ -177,7 +186,11 @@
 					url: `/song/detail?ids=${this.id}`
 				}).then(res => {
 					this.songs = res.data.songs;
-					this.song = this.songs[0]
+					this.song = this.songs[0];
+					let _this = this;
+					uni.setNavigationBarTitle({
+						title: _this.song.name,
+					});
 				});
 			},
 			/* 获取歌词 */
@@ -268,22 +281,10 @@
 					if (!this.duration) {
 						this.duration = this.audio.duration
 					}
-					if (!this.nolyric) {
-						if (this.lyricObj[this.line].time < +this.audio.currentTime.toFixed(3)) {
-							this.$refs[this.line][0].$el.style.color = 'rgb(166 226 45)';
-							// /* 区域滚动 */
-							if(this.line > this.c_pos){
-								this.scrollTop = this.$refs[this.line - this.c_pos][0].$el.offsetTop;
-							}
-							// /* 高亮当前行 */
-							if (this.line > 0) {
-								/* 去掉上一行的样式 */
-								this.$refs[this.line - 1][0].$el.style.color = '#fff';
-							}
-							this.line++;
-						}
+					if(this.duration.toFixed(0) === this.current.toFixed(0)){
+						this.line = 0;
+						this.scrollTop = 0;
 					}
-					// this.$refs.scroll.scrollTop = 10;
 				})
 				//音频结束事件
 				this.audio.onEnded(() => {
@@ -330,10 +331,6 @@
 				this.audio.destroy();
 				this.playSong();
 			},
-			handlerClick() {
-				uni.navigateBack();
-				this.audio.destroy()
-			},
 			continuePlay() {
 				this.playOrder = !this.playOrder;
 				if (this.playOrder) {
@@ -360,9 +357,10 @@
 
 <style lang="scss" scoped>
 	.container {
-		position: relative;
+		position: absolute;
 		width: 100vw;
-		height: 100vh;
+		top: 0;
+		bottom: 0;
 	}
 
 	.bg {
@@ -373,7 +371,7 @@
 		bottom: 0;
 		background-repeat: no-repeat;
 		background-position: center;
-		filter: blur(60rpx);
+		filter: blur(80rpx);
 		z-index: 1;
 	}
 
@@ -388,42 +386,9 @@
 		background: #000;
 	}
 
-	.titleBar {
-		height: 100rpx;
-		width: 100%;
-		display: flex;
-		z-index: 100;
-		position: absolute;
-
-		.bar_left {
-			width: 64rpx;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.bar_center {
-			margin-left: 20rpx;
-			margin-top: 10rpx;
-			color: #fff;
-
-			.title {
-				font-size: 34rpx;
-
-			}
-
-			.author {
-				margin: 4rpx 0;
-				font-size: 24rpx;
-
-			}
-		}
-	}
-
 	.wrap {
 		position: absolute;
-		top: 70px;
+		top: 140rpx;
 		z-index: 100;
 		width: 100%;
 		bottom: 200rpx;

@@ -60,22 +60,17 @@
 			"navigationBarTitleText": "",
 			"enablePullDownRefresh": false
 		}
-
 	}, {
 		"path": "pages/songList/songList",
 		"style": {
-			"navigationBarTitleText": "",
+			"navigationBarTitleText": "推荐歌单",
 			"enablePullDownRefresh": false
 		}
-
 	}, {
 		"path": "pages/musicPlay/musicPlay",
 		"style": {
-			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false,
-			"app-plus": {
-				"titleNView": false
-			}
+			
+			"enablePullDownRefresh": false
 		}
 
 	}],

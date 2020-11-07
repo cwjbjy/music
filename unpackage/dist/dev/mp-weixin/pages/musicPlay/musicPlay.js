@@ -99,13 +99,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   var f0 =
     _vm.songs.length > 0 && _vm.duration !== 0
-      ? _vm._f("author")(_vm.song.ar)
-      : null
-  var f1 =
-    _vm.songs.length > 0 && _vm.duration !== 0
       ? _vm._f("palyTime")(_vm.current)
       : null
-  var f2 =
+  var f1 =
     _vm.songs.length > 0 && _vm.duration !== 0
       ? _vm._f("palyTime")(_vm.duration)
       : null
@@ -129,8 +125,7 @@ var render = function() {
     {
       $root: {
         f0: f0,
-        f1: f1,
-        f2: f2
+        f1: f1
       }
     }
   )
@@ -233,23 +228,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
 var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js */ 109));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
     return {
       id: null, //歌曲ID
       listId: null, //歌单ID
-      lock: false, //用于第一次加载歌词
       song: {},
       songs: [],
       tracks: [], //歌单详情
@@ -257,7 +241,8 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
       srcs: [], //过滤后的歌单详情
       url: '',
       line: 0,
-      offset: 0,
+      scrollTop: 0,
+      c_pos: 4, //C位
       lyricObj: [], //歌词 
       nolyric: false, //无歌词
       color: '#169af3',
@@ -286,49 +271,68 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
       return minute + ':' + second;
     } },
 
-  onLoad: function onLoad(options) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-              _this.id = options.id;
-              _this.listId = options.listId;
-              _this.getSongDetail();
-              _this.initData();case 4:case "end":return _context.stop();}}}, _callee);}))();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  onLoad: function onLoad(options) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              _this2.id = options.id;
+              _this2.listId = options.listId;
+              _this2.getSongDetail();
+              _this2.initData();case 4:case "end":return _context.stop();}}}, _callee);}))();
+  },
+  onUnload: function onUnload() {
+    this.audio.destroy();
   },
   methods: {
-    initData: function initData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this2.getPlayList());case 2:_context2.next = 4;return (
-                  _this2.getSongsUrl());case 4:_context2.next = 6;return (
-                  _this2.getLyric());case 6:
-                _this2.playSong();case 7:case "end":return _context2.stop();}}}, _callee2);}))();
-    },
-    /* 切换区域 */
-    swiperChange: function swiperChange(e) {
-
+    initData: function initData() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this3.getPlayList());case 2:_context2.next = 4;return (
+                  _this3.getSongsUrl());case 4:_context2.next = 6;return (
+                  _this3.getLyric());case 6:
+                _this3.playSong();case 7:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     /* 获取歌单详情，用于切换歌 */
-    getPlayList: function getPlayList() {var _this3 = this;
+    getPlayList: function getPlayList() {var _this4 = this;
       return new Promise(function (resolve, reject) {
-        _this3.$API({
-          url: "/playlist/detail?id=".concat(_this3.listId) }).
+        _this4.$API({
+          url: "/playlist/detail?id=".concat(_this4.listId) }).
         then(function (res) {
-          _this3.tracks = res.data.playlist.tracks;
-          _this3.tracks.map(function (item) {
-            _this3.playlist.push(item.id);
+          _this4.tracks = res.data.playlist.tracks;
+          _this4.tracks.map(function (item) {
+            _this4.playlist.push(item.id);
           });
           resolve();
         });
       });
     },
     /* 获取歌曲列表url */
-    getSongsUrl: function getSongsUrl() {var _this4 = this;
+    getSongsUrl: function getSongsUrl() {var _this5 = this;
       return new Promise(function (resolve, reject) {
-        _this4.$API({
-          url: "/song/url?id=".concat(_this4.playlist.toString()) }).
+        _this5.$API({
+          url: "/song/url?id=".concat(_this5.playlist.toString()) }).
         then(function (res) {
           var data = res.data.data;
           /* 过滤无权限歌曲,并排序 */
-          _this4.tracks.map(function (track, index) {
+          _this5.tracks.map(function (track, index) {
             data.map(function (item) {
               if (track.id == item.id && item.url) {
-                _this4.srcs.push({
+                _this5.srcs.push({
                   id: item.id,
                   url: item.url,
                   index: index });
@@ -341,22 +345,26 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
       });
     },
     /* 获取歌曲详情 */
-    getSongDetail: function getSongDetail() {var _this5 = this;
+    getSongDetail: function getSongDetail() {var _this6 = this;
       this.$API({
         url: "/song/detail?ids=".concat(this.id) }).
       then(function (res) {
-        _this5.songs = res.data.songs;
-        _this5.song = _this5.songs[0];
+        _this6.songs = res.data.songs;
+        _this6.song = _this6.songs[0];
+        var _this = _this6;
+        uni.setNavigationBarTitle({
+          title: _this.song.name });
+
       });
     },
     /* 获取歌词 */
-    getLyric: function getLyric() {var _this6 = this;
+    getLyric: function getLyric() {var _this7 = this;
       return new Promise(function (resolve, reject) {
-        _this6.$API({
-          url: "/lyric?id=".concat(_this6.id) }).
+        _this7.$API({
+          url: "/lyric?id=".concat(_this7.id) }).
         then(function (res) {
           if (res.data.lrc) {
-            _this6.nolyric = false;
+            _this7.nolyric = false;
             var lyrics = res.data.lrc.lyric.split("\n");
             // [00:00.000] 作曲 : 林俊杰
             // 1.定义正则表达式提取[00:00.000]
@@ -392,20 +400,22 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
                 text: text });
 
             });
-            _this6.lyricObj = lyricObj;
+            _this7.lyricObj = lyricObj;
+            /*  */
           } else {
-            _this6.nolyric = true;
+            _this7.nolyric = true;
           }
+          // console.log('this.lyricObj',this.lyricObj)
           resolve();
         });
       });
     },
     /* 播放 */
-    playSong: function playSong() {var _this7 = this;
+    playSong: function playSong() {var _this8 = this;
       /* 根据id查找对应音乐url */
       this.srcs.map(function (item) {
-        if (item.id == _this7.id) {
-          _this7.url = item.url;
+        if (item.id == _this8.id) {
+          _this8.url = item.url;
         }
       });
       this.audio = uni.createInnerAudioContext();
@@ -413,77 +423,45 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
       this.audio.autoplay = true;
       /* 每次构建实例时，将行数初始化 */
       this.line = 0;
+      this.scrollTop = 0;
       /* 音频进入可播放状态 */
       this.audio.onCanplay(function () {
-        _this7.duration = _this7.audio.duration;
+        _this8.duration = _this8.audio.duration;
       });
       //音频播放事件
       this.audio.onPlay(function () {
-        _this7.paused = false;
+        _this8.paused = false;
         // this.loading = false
       });
       //音频暂停事件
       this.audio.onPause(function () {
-        _this7.paused = true;
+        _this8.paused = true;
       });
       //音频进度更新事件
       this.audio.onTimeUpdate(function () {
-        if (!_this7.seek) {
-          _this7.current = _this7.audio.currentTime;
+        if (!_this8.seek) {
+          _this8.current = _this8.audio.currentTime;
         }
-        if (!_this7.duration) {
-          _this7.duration = _this7.audio.duration;
+        if (!_this8.duration) {
+          _this8.duration = _this8.audio.duration;
         }
-        if (!_this7.nolyric) {
-          if (_this7.lyricObj[_this7.line].time < +_this7.audio.currentTime.toFixed(3)) {
-            if (_this7.$refs[_this7.line]) {
-              console.log('4', _this7.$refs[_this7.line]);
-              _this7.$refs[_this7.line][0].$el.style.color = '#fff';
-              // let dom = document.getElementById(this.line);
-              // /* 区域滚动 */
-
-              // this.offset = this.$refs[this.line][0].$el.offsetTop;
-              // console.log('this.offset',this.offset)
-              _this7.$nextTick(function () {
-                _this7.$refs.scrollY.$el.scrollTop = 35;
-              });
-              console.log('this.$refs.scrollY', _this7.$refs.scrollY);
-              // // if(this.line > 6){
-
-              // // }
-              // let view = uni.createSelectorQuery().select('.scroll-Y');
-              // view.fields({
-              // 		size: true
-              // 	},
-              // 	data => {
-              // 		console.log(data)
-              // 		// this.categoryHeight = data.height + 'px';
-              // 	}).exec();
-
-              // /* 高亮当前行 */
-              if (_this7.line > 0) {
-                /* 去掉上一行的样式 */
-                _this7.$refs[_this7.line - 1][0].$el.style.color = '#666';
-              }
-              // dom.className = 'lineHigh';
-              _this7.line++;
-            }
-          }
+        if (_this8.duration.toFixed(0) === _this8.current.toFixed(0)) {
+          _this8.line = 0;
+          _this8.scrollTop = 0;
         }
-        // this.$refs.scroll.scrollTop = 10;
       });
       //音频结束事件
       this.audio.onEnded(function () {
-        if (!_this7.playOrder) {
-          _this7.next(1);
+        if (!_this8.playOrder) {
+          _this8.next(1);
         } else {
-          _this7.paused = true;
-          _this7.current = 0;
+          _this8.paused = true;
+          _this8.current = 0;
         }
       });
       //音频完成更改进度事件
       this.audio.onSeeked(function () {
-        _this7.seek = false;
+        _this8.seek = false;
       });
     },
     next: function next(val) {
@@ -516,10 +494,6 @@ var _func = _interopRequireDefault(__webpack_require__(/*! ../../utils/func.js *
       this.getLyric();
       this.audio.destroy();
       this.playSong();
-    },
-    handlerClick: function handlerClick() {
-      uni.navigateBack();
-      this.audio.destroy();
     },
     continuePlay: function continuePlay() {
       this.playOrder = !this.playOrder;
