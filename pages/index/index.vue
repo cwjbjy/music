@@ -22,8 +22,19 @@
 			<!-- 推荐歌单 -->
 			<view class="title"><text>推荐歌单</text></view>
 			<wj-grid :source="songList"></wj-grid>
-			<!-- 最新专辑 -->
-			<!-- <view class="title"><text>最新专辑</text></view> -->
+			<!-- 最新音乐 -->
+			<view class="title"><text>最新音乐</text></view>
+			<view class="newsong_item" v-for="(item,index) in newsong" :key="item.id" @click="newsongClick(item.id)">
+				<view class="item_left">
+					<view class="f-thide newSongTitle">
+						<text>{{item.song.name}}</text>
+					</view>
+					<view class="f-thide newSongAuthor">{{item.song.artists | author}} - {{item.song.album.name}}</view>
+				</view>
+				<view class="item_right">
+					<view class="iconfont icon-plus-start playIcon"></view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -40,6 +51,9 @@
 			return {
 				banner: [],
 				songList: [],
+				newsong:[],
+				playlist:[], //存放ID组
+				id:'',
 				middleBar: [{
 						url: '../../static/images/home-it666-gd.png',
 						name: '歌单'
@@ -61,11 +75,11 @@
 			}), this.$API({
 				url: '/personalized?limit=6'
 			}), this.$API({
-				url: '/album/newest'
+				url: '/personalized/newsong'
 			})]);
-			this.banner = a.data.banners
-			this.songList = b.data.result
-			// /song/url?id=33894312
+			this.banner = a.data.banners;
+			this.songList = b.data.result;
+			this.newsong = c.data.result;
 		},
 		methods: {
 			searchFocus(e) {
@@ -73,11 +87,29 @@
 					url: '../search/search'
 				})
 			},
+			newsongClick(val){
+				this.id = val
+				/* 判断是否有播放该歌曲权限 */
+				this.$API({
+					url: `/check/music?id=${this.id}`
+				}).then(res=>{
+					if(res.data.success){
+						uni.navigateTo({
+							url:`../../pages/musicPlay/musicPlay?id=${this.id}&playlist=${this.playlist}`
+						})
+					}else{
+						uni.showToast({
+							icon:'none',
+							title:res.data.message
+						})
+					}
+				})
+			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	
 	.mian {
 		padding: 20rpx;
@@ -87,7 +119,7 @@
 		display: flex;
 		justify-content: space-between;
 		margin-top: 40rpx;
-		margin-bottom: 20rpx;
+		margin-bottom: 40rpx;
 	}
 
 	.barItem {
@@ -144,5 +176,38 @@
 			top: 50%;
 			margin-top: -8px;
 		}
+	}
+	.newsong_item{
+		height: 110rpx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1rpx solid #aaaaaa30;
+		.f-thide {
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    word-break: normal;
+		}
+		.item_left{
+			.newSongTitle{
+				font-size: 34rpx;
+				color: #333333;
+			}
+			.newSongAuthor{
+				font-size: 24rpx;
+				color: #888;
+				margin-top: 8rpx;
+			}
+		}
+		.item_right{
+			.iconfont{
+				color: #aaa;
+			}
+			.playIcon{
+				font-size: 40rpx;
+			}
+		}
+
 	}
 </style>

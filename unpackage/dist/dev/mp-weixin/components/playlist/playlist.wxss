@@ -73,12 +73,13 @@
   color: #888;
 }
 .songList .list_item .item_content .play_icon {
-  width: 56rpx;
-  height: 44rpx;
   margin-left: auto;
+  margin-right: 10rpx;
 }
-.songList .list_item .item_content .play_icon image {
-  width: 44rpx;
-  height: 44rpx;
+.songList .list_item .item_content .play_icon .iconfont {
+  color: #aaa;
+}
+.songList .list_item .item_content .play_icon .playIcon {
+  font-size: 40rpx;
 }
 

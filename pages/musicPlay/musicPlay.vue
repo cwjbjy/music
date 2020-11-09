@@ -74,7 +74,7 @@
 				url: '',
 				line: 0,
 				scrollTop: 0,
-				c_pos: 4, //C位
+				c_pos: 2, //C位
 				lyricObj: [], //歌词 
 				nolyric: false, //无歌词
 				color: '#169af3',
@@ -125,7 +125,9 @@
 		// #endif
 		async onLoad(options) {
 			this.id = options.id;
-			this.listId = options.listId;
+			if(options.listId){
+				this.listId = options.listId;
+			}
 			this.getSongDetail();
 			this.initData();
 		},
@@ -134,7 +136,13 @@
 		},
 		methods: {
 			async initData() {
-				await this.getPlayList();
+				if(this.listId){
+					/* 歌单歌曲 */
+					await this.getPlayList();
+				}else{
+					/* 非歌单歌曲 */
+					await this.getSongList();
+				}
 				await this.getSongsUrl();
 				await this.getLyric();
 				this.playSong()
@@ -147,6 +155,20 @@
 					}).then(res => {
 						this.tracks = res.data.playlist.tracks
 						this.tracks.map(item => {
+							this.playlist.push(item.id)
+						})
+						resolve()
+					})
+				})
+			},
+			/* 获取最新歌曲详情，用于切歌 */
+			getSongList(){
+				return new Promise((resolve,reject)=>{
+					this.$API({
+						url:'/personalized/newsong'
+					}).then(res=>{
+						this.tracks = res.data.result;
+						this.tracks.map(item=>{
 							this.playlist.push(item.id)
 						})
 						resolve()
@@ -237,7 +259,6 @@
 						} else {
 							this.nolyric = true
 						}
-						// console.log('this.lyricObj',this.lyricObj)
 						resolve()
 					})
 				})
@@ -258,7 +279,7 @@
 				this.scrollTop = 0;
 				/* 音频进入可播放状态 */
 				this.audio.onCanplay(() => {
-					this.duration = this.audio.duration
+					this.duration = this.audio.duration;
 				})
 				//音频播放事件
 				this.audio.onPlay(() => {

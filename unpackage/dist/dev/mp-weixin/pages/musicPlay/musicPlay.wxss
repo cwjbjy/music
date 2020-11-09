@@ -95,7 +95,8 @@
 .wrap .song .song_turn .song_pic image.data-v-a81d220c {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }
 .wrap .song .active.data-v-a81d220c {
   -webkit-animation-play-state: running;

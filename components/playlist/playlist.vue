@@ -8,7 +8,7 @@
 					<view class="author lin1">{{item.ar | author}} - {{item.al.name}}</view>
 				</view>
 				<view class="play_icon">
-					<image src="../../static/images/play.png"></image>
+					<view class="iconfont icon-plus-start playIcon"></view>
 				</view>
 			</view>
 		</view>
@@ -91,14 +91,15 @@
 					}
 				}
 				.play_icon {
-					width: 56rpx;
-					height: 44rpx;
-					margin-left: auto;
-	
-					image {
-						width: 44rpx;
-						height: 44rpx;
+					.iconfont{
+						color: #aaa;
 					}
+					margin-left: auto;
+					margin-right: 10rpx;
+					.playIcon{
+						font-size: 40rpx;
+					}
+					
 				}
 			}
 

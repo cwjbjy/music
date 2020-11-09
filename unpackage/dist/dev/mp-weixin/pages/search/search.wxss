@@ -54,7 +54,8 @@
   -webkit-box-flex: 1;
   -webkit-flex: 1;
           flex: 1;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
   background-color: #fff;
   margin-left: 40rpx;
   display: -webkit-box;

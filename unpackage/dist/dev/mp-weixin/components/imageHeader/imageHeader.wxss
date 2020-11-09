@@ -84,8 +84,10 @@
   text-align: center;
   line-height: 34rpx;
   background-color: rgba(217, 48, 48, 0.8);
-  border-top-right-radius: 34rpx;
-  border-bottom-right-radius: 34rpx;
+  -webkit-border-top-right-radius: 34rpx;
+          border-top-right-radius: 34rpx;
+  -webkit-border-bottom-right-radius: 34rpx;
+          border-bottom-right-radius: 34rpx;
 }
 .header .header_wrap .wrap_fr {
   -webkit-box-flex: 1;
@@ -109,7 +111,8 @@
   display: inline-block;
   width: 60rpx;
   height: 60rpx;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   vertical-align: middle;
   margin-right: 10rpx;
 }
