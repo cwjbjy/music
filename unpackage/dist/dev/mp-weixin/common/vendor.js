@@ -8032,7 +8032,8 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.myRequest = void 0;var baseURL = 'https://uni-api.cwjbjy.online';
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.myRequest = void 0; // const baseURL = 'https://uni-api.cwjbjy.online';
+var baseURL = 'http://localhost:3000';
 var myRequest = function myRequest(options) {
   return new Promise(function (resolve, reject) {
     uni.request({

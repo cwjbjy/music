@@ -1,1 +1,1 @@
-<view></view>
+<view class="data-v-7230b836"><view class="header data-v-7230b836"><block wx:if="{{!loginStatus}}"><view data-event-opts="{{[['tap',[['loginPage',['$event']]]]]}}" class="lg_button data-v-7230b836" bindtap="__e">账号登陆</view></block></view></view>

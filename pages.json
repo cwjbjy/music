@@ -1,7 +1,7 @@
 {
-		"easycom": {
-			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-		},
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
@@ -40,12 +40,8 @@
 		}
 
 	}, {
-		"path": "pages/userSet/userSet",
-		"style": {
-			"app-plus": {
-				"titleNView": false
-			}
-		}
+		"path": "pages/userSet/userSet"
+
 
 	}, {
 		"path": "pages/webView/webView",
@@ -69,11 +65,50 @@
 	}, {
 		"path": "pages/musicPlay/musicPlay",
 		"style": {
-			
+
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}, {
+		"path": "pages/login/login",
+		"style": {
+			"navigationBarTitleText": "手机号登录",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/areaCode/areaCode",
+		"style": {
+			"navigationBarTitleText": "选择区号",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/authCode/authCode",
+		"style": {
+			"navigationBarTitleText": "验证码",
+			"enablePullDownRefresh": false
+		}
+
+	}    ,{
+            "path" : "pages/nextStep/nextStep",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "手机号登录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/forgetPass/forgetPass",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "网易云音乐",
@@ -112,8 +147,8 @@
 			{
 				"text": "账号",
 				"pagePath": "pages/userSet/userSet",
-				"iconPath": "./static/tab/toolbar-it666-account-normal.png",
-				"selectedIconPath": "static/tab/toolbar-it666-account-selected.png"
+				"iconPath": "./static/tab/account.png",
+				"selectedIconPath": "static/tab/account-active.png"
 			}
 		]
 	}

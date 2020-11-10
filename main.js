@@ -9,6 +9,10 @@ App.mpType = 'app'
 import uView from "uview-ui";
 Vue.use(uView);
 
+import store from './store'
+//把vuex定义成全局组件
+Vue.prototype.$store = store
+
 /* 数字转为万，亿，万亿为单位 */
 Vue.filter('numberFormat', function(value) {
 	var param = {};

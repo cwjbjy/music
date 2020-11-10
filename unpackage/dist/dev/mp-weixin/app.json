@@ -9,7 +9,11 @@
     "pages/webView/webView",
     "components/banner/banner",
     "pages/songList/songList",
-    "pages/musicPlay/musicPlay"
+    "pages/musicPlay/musicPlay",
+    "pages/login/login",
+    "pages/areaCode/areaCode",
+    "pages/authCode/authCode",
+    "pages/nextStep/nextStep"
   ],
   "subPackages": [],
   "window": {
@@ -51,8 +55,8 @@
       {
         "text": "账号",
         "pagePath": "pages/userSet/userSet",
-        "iconPath": "./static/tab/toolbar-it666-account-normal.png",
-        "selectedIconPath": "static/tab/toolbar-it666-account-selected.png"
+        "iconPath": "./static/tab/account.png",
+        "selectedIconPath": "static/tab/account-active.png"
       }
     ]
   },
