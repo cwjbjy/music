@@ -52,9 +52,14 @@
     },
     "h5" : {
         "router" : {
-            "mode" : "history"
+            "mode" : "hash",
+            "base" : ""
         },
-        "title" : "music163",
-        "template" : "index.html"
+        "title" : "网易云音乐",
+        "template" : "index.html",
+        "domain" : "",
+        "devServer" : {
+            "https" : false
+        }
     }
 }

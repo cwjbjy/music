@@ -15,34 +15,7 @@
 			}
 		}
 	}, {
-		"path": "pages/video/video",
-		"style": {
-			"enablePullDownRefresh": false,
-			"app-plus": {
-				"titleNView": false
-			}
-		}
-
-	}, {
-		"path": "pages/user/user",
-		"style": {
-			"app-plus": {
-				"titleNView": false
-			}
-		}
-
-	}, {
-		"path": "pages/friend/friend",
-		"style": {
-			"app-plus": {
-				"titleNView": false
-			}
-		}
-
-	}, {
 		"path": "pages/userSet/userSet"
-
-
 	}, {
 		"path": "pages/webView/webView",
 		"style": {
@@ -90,25 +63,21 @@
 			"enablePullDownRefresh": false
 		}
 
-	}    ,{
-            "path" : "pages/nextStep/nextStep",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "手机号登录",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/forgetPass/forgetPass",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "忘记密码",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	}, {
+		"path": "pages/nextStep/nextStep",
+		"style": {
+			"navigationBarTitleText": "手机号登录",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/forgetPass/forgetPass",
+		"style": {
+			"navigationBarTitleText": "忘记密码",
+			"enablePullDownRefresh": false
+		}
+
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "网易云音乐",
@@ -125,24 +94,6 @@
 				"pagePath": "pages/index/index",
 				"iconPath": "static/tab/home.png",
 				"selectedIconPath": "static/tab/home-active.png"
-			},
-			{
-				"text": "视频",
-				"pagePath": "pages/video/video",
-				"iconPath": "static/tab/toolbar-it666-video-normal.png",
-				"selectedIconPath": "static/tab/toolbar-it666-video-selected.png"
-			},
-			{
-				"text": "我的",
-				"pagePath": "pages/user/user",
-				"iconPath": "static/tab/toolbar-it666-me-normal.png",
-				"selectedIconPath": "static/tab/toolbar-it666-me-selected.png"
-			},
-			{
-				"text": "朋友",
-				"pagePath": "pages/friend/friend",
-				"iconPath": "static/tab/toolbar-it666-friend-normal.png",
-				"selectedIconPath": "static/tab/toolbar-it666-friend-selected.png"
 			},
 			{
 				"text": "账号",

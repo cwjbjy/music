@@ -1,7 +1,7 @@
 <template>
 	<view class="nextStep">
 		<view class="input">
-			<input v-model="password" placeholder="请输入密码" focus />
+			<input v-model="password" placeholder="请输入密码" focus/>
 			<view style="color:#007AFF" @click="forgetPass">忘记密码?</view>
 		</view>
 		<view class="lg_button" @click="login">登录</view>

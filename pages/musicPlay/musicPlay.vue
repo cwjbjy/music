@@ -17,7 +17,7 @@
 				</swiper-item>
 				<swiper-item>
 					<scroll-view :scroll-top="scrollTop" class="scroll-Y" scroll-y="true" v-if="!nolyric">
-						<view v-for="(value,index) in lyricObj" :key="index" :id="index" :ref="index" :style="{'color': index == line ? '#a6e22d' : '#fff'}">
+						<view v-for="(value,index) in lyricObj" :key="index" :id="'line'+index"  :data-top="lineHeight*index"  :style="{'color': index == line ? '#a6e22d' : '#fff'}">
 							{{value.text}}
 						</view>
 					</scroll-view>
@@ -73,8 +73,9 @@
 				srcs: [], //过滤后的歌单详情
 				url: '',
 				line: 0,
+				lineHeight:64,
 				scrollTop: 0,
-				c_pos: 2, //C位
+				c_pos: 4, //C位
 				lyricObj: [], //歌词 
 				nolyric: false, //无歌词
 				color: '#169af3',
@@ -103,7 +104,6 @@
 				return minute + ':' + second
 			}
 		},
-		// #ifndef MP-WEIXIN
 		watch: {
 			'current'(val) {
 				/* 有歌词情况处理歌词 */
@@ -113,7 +113,9 @@
 							if (+this.lyricObj[i].time <= val && val < +this.lyricObj[i + 1].time) {
 								this.line = i;
 								if (this.line > this.c_pos) {
-									this.scrollTop = this.$refs[this.line - this.c_pos][0].$el.offsetTop;
+									uni.createSelectorQuery().select(`#line${this.line - this.c_pos}`).scrollOffset((res)=>{
+										this.scrollTop = res.dataset.top;
+									}).exec()
 								}
 								break;
 							}
@@ -122,7 +124,6 @@
 				}
 			}
 		},
-		// #endif
 		async onLoad(options) {
 			this.id = options.id;
 			if(options.listId){
@@ -405,7 +406,7 @@
 
 	.wrap {
 		position: absolute;
-		top: 140rpx;
+		top: 0;
 		z-index: 100;
 		width: 100%;
 		bottom: 200rpx;
@@ -418,7 +419,7 @@
 			width: 600rpx;
 			height: 600rpx;
 			margin: 0 auto;
-
+			margin-top: 10%;
 			// &::before {
 			// 	width: 96px;
 			// 	height: 137px;
@@ -517,7 +518,7 @@
 		height: 100%;
 		text-align: center;
 		display: block;
-		font-size: 32rpx;
+		font-size: 16px;
 		line-height: 4;
 		position: relative;
 		color: #fff;

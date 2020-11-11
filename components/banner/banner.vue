@@ -27,14 +27,13 @@
 		methods:{
 			swipersClick(val) {
 				this.url = val;
-				// #ifndef MP-WEIXIN
 				if(this.url == null){
-					location.href = 'https://music.163.com/'
-				}else{
-					location.href = this.url;
+					this.url="https://music.163.com/"
 				}
+				// #ifdef H5
+				location.href = this.url;
 				// #endif
-				// #ifdef MP-WEIXIN
+				// #ifndef H5
 				uni.navigateTo({
 					url: `../webView/webView?url=${this.url}`
 				})
