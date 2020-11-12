@@ -68,7 +68,7 @@
 							}
 						})
 					});
-				})
+				});
 			},
 			handlerCilck(val){
 				this.id = val
@@ -105,6 +105,7 @@
 			.image {
 				width: 80rpx;
 				height: 80rpx;
+				border-radius: 8rpx;
 			}
 
 			.item_content {

@@ -47,6 +47,7 @@
 		.pic {
 			width: 220rpx;
 			height: 220rpx;
+			border-radius: 8rpx;
 		}
 
 		.playCount {

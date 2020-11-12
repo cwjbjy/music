@@ -10,9 +10,9 @@
 						<image src="../../static/images/home-it666-rl.png"></image>
 					</view>
 					<view>每日推荐</view>
-					<view class="number">30</view>
+					<view class="number">{{getDate}}</view>
 				</view>
-				<view class="barItem" v-for="(item,index) in middleBar" :key="index">
+				<view class="barItem" v-for="(item,index) in middleBar" :key="index" @click="handlerClick(item.name)">
 					<view class="imageBar">
 						<image :src="item.url"></image>
 					</view>
@@ -69,6 +69,13 @@
 				]
 			}
 		},
+		computed: {
+			getDate() {
+				var myDate = new Date();
+				let date = myDate.getDate();
+				return date
+			}
+		},
 		async onLoad() {
 			let [a, b, c] = await Promise.all([this.$API({
 				url: '/banner'
@@ -90,6 +97,7 @@
 					url: '../search/search'
 				})
 			},
+			/* 最新音乐 */
 			newsongClick(val) {
 				this.id = val
 				/* 判断是否有播放该歌曲权限 */
@@ -113,6 +121,14 @@
 				uni.navigateTo({
 					url: '../recommend/recommend'
 				})
+			},
+			/* 分类点击 */
+			handlerClick(val) {
+				if (val == '歌单') {
+					uni.navigateTo({
+						url:'../songMenu/songMenu'
+					})
+				}
 			}
 		}
 	}
