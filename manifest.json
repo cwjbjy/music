@@ -1,5 +1,5 @@
 {
-    "name" : "music163",
+    "name" : "文杰音乐",
     "appid" : "__UNI__85D510A",
     "description" : "",
     "versionName" : "1.0.0",
@@ -37,7 +37,15 @@
                 ]
             },
             "ios" : {},
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {}
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : ""
+                }
+            }
         }
     },
     "quickapp" : {},

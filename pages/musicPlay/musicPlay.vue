@@ -65,11 +65,10 @@
 		data() {
 			return {
 				id: null, //歌曲ID
-				listId: null, //歌单ID
 				song: {},
 				songs: [],
 				tracks: [], //歌单详情
-				playlist: [], //歌单下歌曲ID集
+				playlist: "", //歌单下歌曲ID集
 				srcs: [], //过滤后的歌单详情
 				url: '',
 				line: 0,
@@ -126,9 +125,8 @@
 		},
 		async onLoad(options) {
 			this.id = options.id;
-			if(options.listId){
-				this.listId = options.listId;
-			}
+			this.playlist = options.playlist;
+			this.tracks = this.playlist.split(",")
 			this.getSongDetail();
 			this.initData();
 		},
@@ -137,56 +135,21 @@
 		},
 		methods: {
 			async initData() {
-				if(this.listId){
-					/* 歌单歌曲 */
-					await this.getPlayList();
-				}else{
-					/* 非歌单歌曲 */
-					await this.getSongList();
-				}
 				await this.getSongsUrl();
 				await this.getLyric();
 				this.playSong()
-			},
-			/* 获取歌单详情，用于切换歌 */
-			getPlayList() {
-				return new Promise((resolve, reject) => {
-					this.$API({
-						url: `/playlist/detail?id=${this.listId}`
-					}).then(res => {
-						this.tracks = res.data.playlist.tracks
-						this.tracks.map(item => {
-							this.playlist.push(item.id)
-						})
-						resolve()
-					})
-				})
-			},
-			/* 获取最新歌曲详情，用于切歌 */
-			getSongList(){
-				return new Promise((resolve,reject)=>{
-					this.$API({
-						url:'/personalized/newsong'
-					}).then(res=>{
-						this.tracks = res.data.result;
-						this.tracks.map(item=>{
-							this.playlist.push(item.id)
-						})
-						resolve()
-					})
-				})
 			},
 			/* 获取歌曲列表url */
 			getSongsUrl() {
 				return new Promise((resolve, reject) => {
 					this.$API({
-						url: `/song/url?id=${this.playlist.toString()}`
+						url: `/song/url?id=${this.playlist}`
 					}).then(res => {
 						let data = res.data.data;
 						/* 过滤无权限歌曲,并排序 */
 						this.tracks.map((track, index) => {
 							data.map(item => {
-								if (track.id == item.id && item.url) {
+								if (track == item.id && item.url) {
 									this.srcs.push({
 										id: item.id,
 										url: item.url,

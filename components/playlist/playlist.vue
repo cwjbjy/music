@@ -31,8 +31,14 @@
 		},
 		data() {
 			return {
-				id:'' //歌曲Id
+				id:'', //歌曲Id
+				playlist:[],
 			};
+		},
+		created() {
+			this.source.map(item=>{
+				this.playlist.push(item.id)
+			})
 		},
 		methods:{
 			handlerCilck(val){
@@ -43,7 +49,7 @@
 				}).then(res=>{
 					if(res.data.success){
 						uni.navigateTo({
-							url:`../../pages/musicPlay/musicPlay?id=${this.id}&listId=${this.listId}`
+							url:`../../pages/musicPlay/musicPlay?id=${this.id}&playlist=${this.playlist}`
 						})
 					}else{
 						uni.showToast({

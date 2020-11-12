@@ -5,7 +5,7 @@
 			<wj-banner :source="banner"></wj-banner>
 			<!-- 选项列表 -->
 			<view class="middleBar">
-				<view class="barItem">
+				<view class="barItem" @click="recommend">
 					<view class="imageBar">
 						<image src="../../static/images/home-it666-rl.png"></image>
 					</view>
@@ -51,9 +51,9 @@
 			return {
 				banner: [],
 				songList: [],
-				newsong:[],
-				playlist:[], //存放ID组
-				id:'',
+				newsong: [],
+				playlist: [], //存放ID组
+				id: '',
 				middleBar: [{
 						url: '../../static/images/home-it666-gd.png',
 						name: '歌单'
@@ -80,6 +80,9 @@
 			this.banner = a.data.banners;
 			this.songList = b.data.result;
 			this.newsong = c.data.result;
+			this.newsong.map(item => {
+				this.playlist.push(item.id)
+			})
 		},
 		methods: {
 			searchFocus(e) {
@@ -87,22 +90,28 @@
 					url: '../search/search'
 				})
 			},
-			newsongClick(val){
+			newsongClick(val) {
 				this.id = val
 				/* 判断是否有播放该歌曲权限 */
 				this.$API({
 					url: `/check/music?id=${this.id}`
-				}).then(res=>{
-					if(res.data.success){
+				}).then(res => {
+					if (res.data.success) {
 						uni.navigateTo({
-							url:`../../pages/musicPlay/musicPlay?id=${this.id}&playlist=${this.playlist}`
+							url: `../../pages/musicPlay/musicPlay?id=${this.id}&playlist=${this.playlist}`
 						})
-					}else{
+					} else {
 						uni.showToast({
-							icon:'none',
-							title:res.data.message
+							icon: 'none',
+							title: res.data.message
 						})
 					}
+				})
+			},
+			/* 每日推荐 */
+			recommend() {
+				uni.navigateTo({
+					url: '../recommend/recommend'
 				})
 			}
 		}
@@ -110,7 +119,6 @@
 </script>
 
 <style lang="scss" scoped>
-	
 	.mian {
 		padding: 20rpx;
 	}
@@ -177,34 +185,40 @@
 			margin-top: -8px;
 		}
 	}
-	.newsong_item{
+
+	.newsong_item {
 		height: 110rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		border-bottom: 1rpx solid #aaaaaa30;
+
 		.f-thide {
-		    overflow: hidden;
-		    text-overflow: ellipsis;
-		    white-space: nowrap;
-		    word-break: normal;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: normal;
 		}
-		.item_left{
-			.newSongTitle{
+
+		.item_left {
+			.newSongTitle {
 				font-size: 34rpx;
 				color: #333333;
 			}
-			.newSongAuthor{
+
+			.newSongAuthor {
 				font-size: 24rpx;
 				color: #888;
 				margin-top: 8rpx;
 			}
 		}
-		.item_right{
-			.iconfont{
+
+		.item_right {
+			.iconfont {
 				color: #aaa;
 			}
-			.playIcon{
+
+			.playIcon {
 				font-size: 40rpx;
 			}
 		}
