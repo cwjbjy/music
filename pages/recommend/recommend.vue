@@ -41,6 +41,11 @@
 				success: (res) => {
 					this.cookie = res.data;
 					this.getRecommendSongs()
+				},
+				fail: () => {
+					uni.switchTab({
+						url: '../userSet/userSet'
+					});
 				}
 			})
 		},
@@ -49,30 +54,20 @@
 				this.$API({
 					url: `/recommend/songs?cookie=${this.cookie}`
 				}).then(res => {
-					if (res.code == 301) {
-						uni.navigateTo({
-							url: '../userSet/userSet'
-						});
-						uni.showToast({
-							icon: 'none',
-							title: '请先登录'
+					this.dailySongs = res.data.data.dailySongs;
+					/* 提取歌曲Id列表 */
+					this.dailySongs.map(item=>{
+						this.playlist.push(item.id)
+					})
+					this.recommendReasons = res.data.data.recommendReasons;
+					/* 封装 */
+					this.dailySongs.map(item=>{
+						this.recommendReasons.map(child=>{
+							if(item.id == child.songId){
+								this.$set(item,'recommendReason',child.reason)
+							}
 						})
-					} else {
-						this.dailySongs = res.data.data.dailySongs;
-						/* 提取歌曲Id列表 */
-						this.dailySongs.map(item=>{
-							this.playlist.push(item.id)
-						})
-						this.recommendReasons = res.data.data.recommendReasons;
-						/* 封装 */
-						this.dailySongs.map(item=>{
-							this.recommendReasons.map(child=>{
-								if(item.id == child.songId){
-									this.$set(item,'recommendReason',child.reason)
-								}
-							})
-						});
-					}
+					});
 				})
 			},
 			handlerCilck(val){
