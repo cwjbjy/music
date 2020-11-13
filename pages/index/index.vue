@@ -124,13 +124,17 @@
 			},
 			/* 分类点击 */
 			handlerClick(val) {
-				if (val == '歌单') {
+				if (val === '歌单') {
 					uni.navigateTo({
 						url:'../songMenu/songMenu'
 					})
-				}else if(val == '排行榜'){
+				}else if(val === '排行榜'){
 					uni.navigateTo({
 						url:'../rankingList/rankingList'
+					})
+				}else if(val === '电台'){
+					uni.navigateTo({
+						url:'../radio/radio'
 					})
 				}
 			}

@@ -104,6 +104,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/radio/radio",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "电台",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/radioPlay/radioPlay",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "电台",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
