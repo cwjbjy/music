@@ -1,7 +1,7 @@
 <template>
 	<view class="gridBox">
 		<view class="gridItem" v-for="item in source" :key="item.id" @click="handlerClick(item.id)">
-			<u-lazy-load :image="item.picUrl" :loading-img="loadingImg" :error-img="errorImg" class="pic" border-radius="8"></u-lazy-load>
+			<image :src="item.picUrl" class="pic"></image>
 			<view class="playCount">{{item.playCount | numberFormat}}</view>
 			<view class="picName">{{item.name}}</view>
 		</view>
@@ -19,18 +19,17 @@
 		},
 		data() {
 			return {
-				loadingImg: "/static/images/loading.png",
-				errorImg: "/static/images/error.png",
+
 			};
 		},
 		methods: {
 			handlerClick(val) {
 				uni.navigateTo({
-					url: `../../pages/songList/songList?id=${val}`
+					url:`../../pages/songList/songList?id=${val}`
 				})
 			}
 		},
-	}
+		}
 </script>
 
 <style lang="scss">
