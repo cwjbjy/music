@@ -3,7 +3,7 @@
 		<swiper indicator-dots circular :autoplay="true">
 			<swiper-item v-for="(item,index) in source" :key="index" @click="swipersClick(item.url)">
 				<view class="bannerContent">
-					<image :src="item.imageUrl" class="bannerImage"></image>
+					<u-lazy-load :image="item.imageUrl" :loading-img="loadingImg"  :error-img="errorImg" class="bannerImage" border-radius="8"></u-lazy-load>
 					<view :class="[item.titleColor == 'blue' ? 'blue':'red','bannerTitle']">{{item.typeTitle}}</view>
 				</view>
 			</swiper-item>
@@ -22,6 +22,8 @@
 		data() {
 			return {
 					url: "",
+					loadingImg:"/static/images/loading.png",
+					errorImg:"/static/images/error.png",
 			};
 		},
 		methods:{
