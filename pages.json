@@ -32,7 +32,7 @@
 	}, {
 		"path": "pages/songList/songList",
 		"style": {
-			"navigationBarTitleText": "推荐歌单",
+			"navigationBarTitleText": "歌单",
 			"enablePullDownRefresh": false
 		}
 	}, {
@@ -91,6 +91,15 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "歌单广场",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/rankingList/rankingList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "排行榜",
                 "enablePullDownRefresh": false
             }
             

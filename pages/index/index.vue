@@ -128,6 +128,10 @@
 					uni.navigateTo({
 						url:'../songMenu/songMenu'
 					})
+				}else if(val == '排行榜'){
+					uni.navigateTo({
+						url:'../rankingList/rankingList'
+					})
 				}
 			}
 		}
@@ -183,7 +187,7 @@
 	}
 
 	.title {
-		margin-bottom: 20rpx;
+		margin: 20rpx 0;
 		font-size: 34rpx;
 		position: relative;
 
