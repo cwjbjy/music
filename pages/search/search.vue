@@ -7,13 +7,13 @@
 		<view class="hotlist" v-if="flag === 0">
 			<view class="title">热门搜索</view>
 			<view class="list">
-				<view v-for="(item,index) in hotlist" :key="index" class="item" @click="hotClick(item.first)">{{item.first}}</view>
+				<view v-for="(item,index) in hotlist" :key="index" class="item" @click="changeInput(item.first)">{{item.first}}</view>
 			</view>
 			<view class="history_list">
 				<view v-for="(item,index) in history_list" :key="index" class="history_item">
 					<u-icon name="clock" color="#ccc" size="32"></u-icon>
 					<view class="right">
-						<view>{{item.keyword}}</view>
+						<view class="title" @click="changeInput(item.keyword)">{{item.keyword}}</view>
 						<u-icon name="close" color="#ccc" @click="close(item.keyword)"></u-icon>
 					</view>
 				</view>
@@ -121,7 +121,7 @@
 				this.flag = 0;
 			},
 			/* 点击热门搜索 */
-			hotClick(val) {
+			changeInput(val) {
 				this.keyword = val;
 			},
 			/* 点击搜索建议 */
@@ -304,6 +304,10 @@
 			border-bottom: 1rpx solid #aaaaaa30;
 			height: 90rpx;
 			line-height: 90rpx;
+			.title{
+				flex: 1;
+				line-height: 90rpx;
+			}
 		}
 	}
 </style>

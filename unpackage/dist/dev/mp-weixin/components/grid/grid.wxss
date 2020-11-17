@@ -43,6 +43,8 @@
 .gridBox .pic {
   width: 220rpx;
   height: 220rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
 }
 .gridBox .playCount {
   font-size: 24rpx;

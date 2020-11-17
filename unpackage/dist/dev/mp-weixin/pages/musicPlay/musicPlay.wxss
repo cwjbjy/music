@@ -55,7 +55,7 @@
 }
 .wrap.data-v-a81d220c {
   position: absolute;
-  top: 140rpx;
+  top: 0;
   z-index: 100;
   width: 100%;
   bottom: 200rpx;
@@ -67,6 +67,7 @@
   width: 600rpx;
   height: 600rpx;
   margin: 0 auto;
+  margin-top: 10%;
 }
 .wrap .song .song_turn.data-v-a81d220c {
   width: 100%;
@@ -175,7 +176,7 @@ to {
   height: 100%;
   text-align: center;
   display: block;
-  font-size: 32rpx;
+  font-size: 16px;
   line-height: 4;
   position: relative;
   color: #fff;

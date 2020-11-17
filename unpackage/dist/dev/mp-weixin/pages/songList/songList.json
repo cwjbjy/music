@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "推荐歌单",
+  "navigationBarTitleText": "歌单",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "playlist": "/components/playlist/playlist",

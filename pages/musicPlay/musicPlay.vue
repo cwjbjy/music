@@ -53,7 +53,8 @@
 					<view class="iconfont icon-plus-pause playIcon" v-if="!paused"></view>
 				</view>
 				<view class="iconfont icon-048caozuo_xiayishou barIcon" @click="next(1)"></view>
-				<view class="iconfont icon-shoucang barIcon"></view>
+				<view class="iconfont icon-shoucang barIcon" v-show="!status" @click="collect"></view>
+				<view class="iconfont icon-lujing barIcon activeClass" v-show="status" @click="collect"></view>
 			</view>
 		</view>
 	</view>
@@ -65,6 +66,8 @@
 		data() {
 			return {
 				id: null, //歌曲ID
+				status:false, //收藏状态
+				loginStatus:false, //登录状态
 				song: {},
 				songs: [],
 				tracks: [], //歌单详情
@@ -129,6 +132,13 @@
 			this.tracks = this.playlist.split(",")
 			this.getSongDetail();
 			this.initData();
+			/* 获取cookie，判断登录状态 */
+			uni.getStorage({
+				key:'cookie',
+				success:()=>{
+					this.loginStatus = true;
+				}
+			})
 		},
 		onUnload() {
 			this.audio.destroy()
@@ -138,6 +148,23 @@
 				await this.getSongsUrl();
 				await this.getLyric();
 				this.playSong()
+			},
+			/* 收藏 */
+			collect(){
+				if(this.loginStatus){
+					this.status = !this.status;
+					/* t:1收藏，t:2取消收藏 */
+					// if(this.status){
+					// 	this.$API({
+					// 		url:`/playlist/subscribe?t=1&id=${this.id}`,
+					// 	})
+					// }
+				}else{
+					uni.showToast({
+						icon:'none',
+						title:'请登录'
+					})
+				}
 			},
 			/* 获取歌曲列表url */
 			getSongsUrl() {
@@ -485,5 +512,8 @@
 		line-height: 4;
 		position: relative;
 		color: #fff;
+	}
+	.activeClass{
+		color:red
 	}
 </style>

@@ -25,6 +25,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.userSet.data-v-7230b836 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  background: #f1f1f1;
+}
 .header.data-v-7230b836 {
   background-color: #d43c33;
   text-align: center;
@@ -48,5 +56,65 @@
   font-size: 36rpx;
   line-height: 80rpx;
   font-weight: bold;
+}
+.header .avatar_wrap.data-v-7230b836 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  width: 100%;
+  padding: 0 60rpx;
+}
+.header .avatar_wrap .avatar.data-v-7230b836 {
+  width: 150rpx;
+  height: 150rpx;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+}
+.header .avatar_wrap .userInfo.data-v-7230b836 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  color: #fff;
+  font-size: 32rpx;
+  padding: 0 20px;
+  position: relative;
+}
+.header .avatar_wrap .userInfo .name.data-v-7230b836 {
+  margin-top: 20rpx;
+  text-align: left;
+  position: absolute;
+  bottom: 30px;
+}
+.header .avatar_wrap .userInfo .follow.data-v-7230b836 {
+  margin-top: 20rpx;
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+}
+.wrap.data-v-7230b836 {
+  position: absolute;
+  bottom: 40rpx;
+  left: 0;
+  right: 0;
+  background: #fff;
+}
+.wrap .list_item.data-v-7230b836 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  border-top: 1rpx solid #aaaaaa30;
+}
+.wrap .list_item .title.data-v-7230b836 {
+  font-size: 32rpx;
+  padding: 12px 15px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
 }
 

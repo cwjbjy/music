@@ -63,7 +63,7 @@
             "mode" : "history",
             "base" : ""
         },
-        "title" : "网易云音乐",
+        "title" : "文杰音乐",
         "template" : "index.html",
         "domain" : "",
         "devServer" : {
