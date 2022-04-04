@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "每日推荐",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load"
-  }
-}
