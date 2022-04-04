@@ -1,4 +1,4 @@
-const baseURL = 'https://uni-api.cwjbjy.online';
+const baseURL = 'https://uni-api.caowj.top';
 // const baseURL = 'http://localhost:3000'
 const myRequest = (options) =>{
 	return new Promise((resolve,reject)=>{
